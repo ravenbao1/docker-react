@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker # To install docker in the container
+
+before_install:
+  - docker build -t ravenbao1/docker-react -f Dockerfile.dev . # build docker using the specific file -t: tag (can be any name)
+
+script:
+  - docker run -e CI=true ravenbao1/docker-react npm run test -- --coverage
+
+# anytime that Travis sees that we have pushed a new commit up to GitHub, it's gonna clone all of our code 
+# and then use these series of directions to build our docker image, run some tests, and then report on 
+# whether our tests succeeded or failed
