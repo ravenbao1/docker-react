@@ -11,3 +11,15 @@ script:
 # anytime that Travis sees that we have pushed a new commit up to GitHub, it's gonna clone all of our code 
 # and then use these series of directions to build our docker image, run some tests, and then report on 
 # whether our tests succeeded or failed
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2" # Obtained from the URL of the webapp in AWS
+  name: "docker" # Obtained from the webapp in AWS
+  env: "Docker-env" # Obtained from the webapp in AWS
+  bucket_name: "elasticbeanstalk-us-east-2-879363212469" # Found in AWS > s3 > search for the corresponding bucket to the webapp 
+  bucket_path: "docker" # Same as the name
+  on:
+    branch: master # Only deploy when master branch has some new code
+  access_key_id: "$AWS_ACCESS_KEY1"
+  secret_access_key: "$AWS_SECRET_KEY1" # Defined in the travis CI repo settings, key and secret were created from AWS
